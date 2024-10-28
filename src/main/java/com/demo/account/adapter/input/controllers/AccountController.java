@@ -10,6 +10,7 @@ import com.demo.account.port.input.CreateAccountUseCase;
 import com.demo.account.port.input.LoginUseCase;
 import lombok.extern.slf4j.Slf4j;
 
+@Deprecated
 @Slf4j
 @RestController
 public class AccountController {
