@@ -6,10 +6,10 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
-import java.util.NoSuchElementException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import com.demo.account.domain.exception.ParametroIncorretoException;
 import com.demo.account.domain.services.GameService;
 import com.demo.account.domain.services.questions.QuestionBuilderImp;
 
@@ -43,7 +43,7 @@ public class GameServiceTest {
     @DisplayName("Should throw error answering non-existing question")
     void test3() {
         int nonExistingQuestionId = -1;
-        assertThrows(NoSuchElementException.class,
+        assertThrows(ParametroIncorretoException.class,
                 () -> gameServiceSUT.answerQuestion(nonExistingQuestionId, "27/04/2045"));
     }
 

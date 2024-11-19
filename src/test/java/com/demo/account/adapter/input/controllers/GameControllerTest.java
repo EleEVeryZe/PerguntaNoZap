@@ -36,18 +36,12 @@ public class GameControllerTest {
     @DisplayName("Should call POST answer")
     void test3() throws Exception {
         createGame();
-
-        var aux =
-                this.mockMvc
-                        .perform(post("/answer/" + gameName + "/" + personId)
-                                .param("answer", "27/02/2048").param("questionId", "0"))
-                        .andReturn();
-
-
+        this.mockMvc.perform(post("/answer/" + gameName + "/" + personId)
+                .param("answer", "27/02/2048").param("questionId", "0")).andReturn();
     }
 
     @Test
-    @DisplayName("Should fail call GET question")
+    @DisplayName("Should fail call GET question due to empty fields")
     void test2() throws Exception {
         String gameName = "";
         String personId = "";

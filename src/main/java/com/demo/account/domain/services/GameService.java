@@ -1,5 +1,6 @@
 package com.demo.account.domain.services;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -13,6 +14,7 @@ public class GameService {
     private String personId;
 
     private Queue<Question> gameQuestions = new LinkedList<>();
+    private List<Question> answeredQuestions = new ArrayList();
 
     public GameService(String personId, Queue<Question> gameQuestions) {
         this.personId = personId;
@@ -31,8 +33,9 @@ public class GameService {
             throw new ParametroIncorretoException("Essa pergunta não foi perguntada",
                     HttpStatus.BAD_REQUEST);
 
-        questionToBeAnswered.verifyAnswer(answer);
-        gameQuestions.poll();
+        questionToBeAnswered.answer(answer);
+
+        answeredQuestions.add(gameQuestions.poll());
     }
 
     public String getPersonId() {

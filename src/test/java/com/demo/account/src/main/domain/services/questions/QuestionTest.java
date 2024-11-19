@@ -26,7 +26,7 @@ public class QuestionTest {
     void Should_verify_Answer() {
         String dataAnteriorAHoje = "19/02/1993";
         assertThrows(ParametroIncorretoException.class,
-                () -> this.questionSUT.verifyAnswer(dataAnteriorAHoje));
+                () -> this.questionSUT.answer(dataAnteriorAHoje));
 
     }
 

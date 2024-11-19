@@ -8,17 +8,20 @@ public class Question {
     private String text;
     private GameEnum type;
     private final Verifier verifier;
+    private String answer;
 
     public Question(int id, String text, GameEnum type, Verifier verifier) {
         this.id = id;
         this.text = text;
         this.type = type;
-        this.verifier = verifier;
+        this.verifier = verifier; // TODO: ser possível adicionar mais de um verifier
     }
 
-    public void verifyAnswer(String answer) {
+    public void answer(String answer) {
         if (existsVerifier())
             this.verifier.verifyAnswer(answer);
+
+        this.answer = answer;
     }
 
     public GameEnum getType() {
