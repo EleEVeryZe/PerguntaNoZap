@@ -20,7 +20,7 @@ public class GamesServiceSingleton {
         return personGame;
     }
 
-    public static GameService start(String personId, String gameName) {
+    public static GameService startOrResume(String personId, String gameName) {
         GameService personQuestions = findGameQuestionByPersonId(gameServices, personId);
 
         if (personQuestions == null) {

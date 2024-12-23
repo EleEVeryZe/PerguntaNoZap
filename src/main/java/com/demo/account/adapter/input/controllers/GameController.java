@@ -15,17 +15,16 @@ public class GameController {
     @GetMapping("/question/{gameName}/{personId}")
     public ResponseEntity<Object> getQuestion(@PathVariable() String gameName,
             @PathVariable() String personId) {
-
-        var personGame = GamesServiceSingleton.start(personId, gameName);
-
-        return ResponseEntity.ok(personGame.getNextQuestion());
+        return ResponseEntity
+                .ok(GamesServiceSingleton.startOrResume(personId, gameName).getNextQuestion());
     }
 
     @PostMapping("/answer/{gameName}/{personId}")
     public ResponseEntity<Object> answer(@PathVariable() String gameName,
             @PathVariable() String personId, @RequestBody AnswerDTO answer) {
 
-        GamesServiceSingleton.resume(personId, gameName).answer(answer.questionId(), answer.text());
+        GamesServiceSingleton.resume(personId, gameName).answer(answer.questionId(), answer.text())
+                .registerSummary();
 
         return ResponseEntity.ok("");
     }

@@ -25,13 +25,15 @@ public class GameService {
         return gameQuestions.peek();
     }
 
-    private void registerSummary() {
-        var summary = this.answeredQuestions.stream().map(q -> q.getQuestionWithAnswers())
-                .collect(Collectors.joining(" , "));
-        gameQuestions.add(new Question(-1, summary, GameEnum.BIG_BALL, null));
+    public void registerSummary() {
+        if (this.gameQuestions.isEmpty()) {
+            var summary = this.answeredQuestions.stream().map(q -> q.getQuestionWithAnswers())
+                    .collect(Collectors.joining(" , "));
+            gameQuestions.add(new Question(-1, summary, GameEnum.BIG_BALL, null));
+        }
     }
 
-    public void answer(int questionId, String answer) {
+    public GameService answer(int questionId, String answer) {
         var questionToBeAnswered = findQuestionById(questionId);
 
         if (questionToBeAnswered == null)
@@ -41,8 +43,7 @@ public class GameService {
         questionToBeAnswered.answer(answer);
         answeredQuestions.add(gameQuestions.poll());
 
-        if (this.gameQuestions.isEmpty())
-            registerSummary();
+        return this;
     }
 
     public String getPersonId() {
