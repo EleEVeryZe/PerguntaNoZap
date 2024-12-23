@@ -3,18 +3,15 @@ package com.demo.account.domain.services.questions;
 import com.demo.account.domain.enums.GameEnum;
 import com.demo.account.domain.services.questions.verifiers.Verifier;
 
-public class Question {
+public class Question extends GameResponse {
     private int id;
-    private String text;
-    private GameEnum type;
     private final Verifier verifier;
     private String answer;
 
     public Question(int id, String text, GameEnum type, Verifier verifier) {
+        super(text, type);
         this.id = id;
-        this.text = text;
-        this.type = type;
-        this.verifier = verifier; // TODO: ser possível adicionar mais de um verifier
+        this.verifier = verifier;
     }
 
     public void answer(String answer) {
@@ -38,5 +35,9 @@ public class Question {
 
     private boolean existsVerifier() {
         return this.verifier != null;
+    }
+
+    public String getQuestionWithAnswers() {
+        return this.text + " --> " + this.answer;
     }
 }

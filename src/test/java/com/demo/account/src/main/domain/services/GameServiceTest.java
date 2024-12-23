@@ -33,7 +33,7 @@ public class GameServiceTest {
     @DisplayName("Should answer existing question")
     void test2() {
         try {
-            gameServiceSUT.answerQuestion(0, "27/04/2045");
+            gameServiceSUT.answer(0, "27/04/2045");
         } catch (Exception ex) {
             fail("Should not have thrown exception");
         }
@@ -44,7 +44,7 @@ public class GameServiceTest {
     void test3() {
         int nonExistingQuestionId = -1;
         assertThrows(ParametroIncorretoException.class,
-                () -> gameServiceSUT.answerQuestion(nonExistingQuestionId, "27/04/2045"));
+                () -> gameServiceSUT.answer(nonExistingQuestionId, "27/04/2045"));
     }
 
 }
