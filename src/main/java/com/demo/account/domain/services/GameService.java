@@ -27,7 +27,7 @@ public class GameService {
 
     public void registerSummary() {
         if (this.gameQuestions.isEmpty()) {
-            var summary = this.answeredQuestions.stream().map(q -> q.getQuestionWithAnswers())
+            String summary = this.answeredQuestions.stream().map(q -> q.printAnswer())
                     .collect(Collectors.joining(" , "));
             gameQuestions.add(new Question(-1, summary, GameEnum.BIG_BALL, null));
         }

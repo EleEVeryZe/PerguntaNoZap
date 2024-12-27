@@ -11,7 +11,7 @@ public class GamesServiceSingleton {
     static List<GameService> gameServices = new ArrayList<>();
 
     public static GameService resume(String personId, String gameName) {
-        var personGame = findGameQuestionByPersonId(gameServices, personId);
+        var personGame = findGameQuestionByPersonId(personId);
 
         if (personGame == null)
             throw new ParametroIncorretoException("Voce ainda não iniciou o jogo",
@@ -21,7 +21,7 @@ public class GamesServiceSingleton {
     }
 
     public static GameService startOrResume(String personId, String gameName) {
-        GameService personQuestions = findGameQuestionByPersonId(gameServices, personId);
+        GameService personQuestions = findGameQuestionByPersonId(personId);
 
         if (personQuestions == null) {
             personQuestions = newGame(gameName, personId);
@@ -36,8 +36,7 @@ public class GamesServiceSingleton {
                 QuestionBuilderImp.umJogo().doTipo(GameEnum.valueOf(gameName)).build());
     }
 
-    public static GameService findGameQuestionByPersonId(List<GameService> gameServices,
-            String personId) {
+    public static GameService findGameQuestionByPersonId(String personId) {
         return gameServices.stream().filter(game -> game.getPersonId().equals(personId)).findFirst()
                 .orElse(null);
     }

@@ -5,39 +5,18 @@ import com.demo.account.domain.services.questions.verifiers.Verifier;
 
 public class Question extends GameResponse {
     private int id;
-    private final Verifier verifier;
-    private String answer;
 
-    public Question(int id, String text, GameEnum type, Verifier verifier) {
-        super(text, type);
+    public Question(int id, String summary, GameEnum type, Verifier... verifier) {
+        super(summary, type, verifier);
         this.id = id;
-        this.verifier = verifier;
     }
 
-    public void answer(String answer) {
-        if (existsVerifier())
-            this.verifier.verifyAnswer(answer);
-
-        this.answer = answer;
-    }
-
-    public GameEnum getType() {
-        return this.type;
+    @Override
+    public String printAnswer() {
+        return this.text + " --> " + this.answer;
     }
 
     public int getId() {
         return id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    private boolean existsVerifier() {
-        return this.verifier != null;
-    }
-
-    public String getQuestionWithAnswers() {
-        return this.text + " --> " + this.answer;
     }
 }
