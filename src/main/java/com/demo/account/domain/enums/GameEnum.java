@@ -1,7 +1,7 @@
 package com.demo.account.domain.enums;
 
 public enum GameEnum {
-    BIG_BALL("BIG_BALL"), HAMBURGUERIA("HAMBURGERIA");
+    BIG_BALL("BIG_BALL"), HAMBURGUERIA("HAMBURGERIA"), RAMAL("RAMAL");
 
     private String gameType;
 

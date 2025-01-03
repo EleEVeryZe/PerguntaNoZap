@@ -9,24 +9,26 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import com.demo.account.domain.enums.GameEnum;
 import com.demo.account.domain.exception.ParametroIncorretoException;
-import com.demo.account.domain.services.GameService;
+import com.demo.account.domain.services.GameListService;
 import com.demo.account.domain.services.questions.QuestionBuilderImp;
 
 public class GameServiceTest {
 
-    private static GameService gameServiceSUT;
+    private static GameListService gameServiceSUT;
+    private static GameEnum gameType = GameEnum.BIG_BALL;
 
     @BeforeAll
     static void setUp() {
-        gameServiceSUT =
-                new GameService("+3198497648", QuestionBuilderImp.umJogo().doBicho().build());
+        gameServiceSUT = new GameListService("+3198497648", gameType,
+                QuestionBuilderImp.umJogo().doBicho().build());
     }
 
     @Test
     @DisplayName("Should get next question")
     void test() {
-        assertThat(gameServiceSUT.getNextQuestion(), is(not(nullValue())));
+        assertThat(gameServiceSUT.getNextResponse(), is(not(nullValue())));
     }
 
     @Test

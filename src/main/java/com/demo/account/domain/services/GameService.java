@@ -1,57 +1,47 @@
 package com.demo.account.domain.services;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.stream.Collectors;
-import org.springframework.http.HttpStatus;
 import com.demo.account.domain.enums.GameEnum;
-import com.demo.account.domain.exception.ParametroIncorretoException;
 import com.demo.account.domain.services.questions.GameResponse;
-import com.demo.account.domain.services.questions.Question;
+import com.demo.account.domain.services.questions.Summary;
 
-public class GameService {
-    private String personId;
-    private Queue<Question> gameQuestions = new LinkedList<>();
-    private List<Question> answeredQuestions = new ArrayList();
+public abstract class GameService {
+    protected String personId;
+    protected GameEnum gameType;
+    protected List<GameResponse> answeredResponses = new ArrayList();
 
-    public GameService(String personId, Queue<Question> gameQuestions) {
+    protected GameService(String personId, GameEnum gameType) {
         this.personId = personId;
-        this.gameQuestions = gameQuestions;
-    }
-
-    public GameResponse getNextQuestion() {
-        return gameQuestions.peek();
-    }
-
-    public void registerSummary() {
-        if (this.gameQuestions.isEmpty()) {
-            String summary = this.answeredQuestions.stream().map(q -> q.printAnswer())
-                    .collect(Collectors.joining(" , "));
-            gameQuestions.add(new Question(-1, summary, GameEnum.BIG_BALL, null));
-        }
+        this.gameType = gameType;
     }
 
     public GameService answer(int questionId, String answer) {
-        var questionToBeAnswered = findQuestionById(questionId);
-
-        if (questionToBeAnswered == null)
-            throw new ParametroIncorretoException("Essa pergunta não foi perguntada",
-                    HttpStatus.BAD_REQUEST);
-
-        questionToBeAnswered.answer(answer);
-        answeredQuestions.add(gameQuestions.poll());
-
+        var isNotEmpty = !isEmpty();
+        if (isNotEmpty)
+            answeredResponses.add(pollAskedResponse(questionId).answer(answer));
         return this;
+    }
+
+    public GameResponse getNextResponse() {
+        var isEmpty = isEmpty();
+        if (isEmpty) {
+            String summary = this.answeredResponses.stream().map(q -> q.printAnswer())
+                    .collect(Collectors.joining(" , "));
+            return new Summary(-1, summary, null);
+        }
+
+        return getSpecificResponse();
     }
 
     public String getPersonId() {
         return personId;
     }
 
-    private Question findQuestionById(int questionId) {
-        return this.gameQuestions.stream().filter(question -> question.getId() == questionId)
-                .findFirst().orElse(null);
-    }
+    protected abstract GameResponse pollAskedResponse(int questionId);
+
+    protected abstract boolean isEmpty();
+
+    protected abstract GameResponse getSpecificResponse();
 }

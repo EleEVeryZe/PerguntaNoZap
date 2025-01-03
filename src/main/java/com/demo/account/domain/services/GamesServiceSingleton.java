@@ -32,7 +32,7 @@ public class GamesServiceSingleton {
     }
 
     private static GameService newGame(String gameName, String personId) {
-        return new GameService(personId,
+        return new GameListService(personId, GameEnum.valueOf(gameName),
                 QuestionBuilderImp.umJogo().doTipo(GameEnum.valueOf(gameName)).build());
     }
 
